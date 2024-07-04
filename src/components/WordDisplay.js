@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Card,
     CardContent,
@@ -6,9 +6,6 @@ import {
     CardHeader,
     CardTitle,
   } from "./card"
-import WordInput from "./WordInput";
-  
-
 
 function WordDisplay(){
 
@@ -18,6 +15,17 @@ function WordDisplay(){
     const [wordCount, setWordCount] = useState(5);
     const [targetWord, setTargetWord] = useState("Chair");
 
+    function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    const getTargetWords = () => {
+        // Gets list of target words
+        // TODO implement a backend api call or db call or something else
+        // TODO cache the array somewhere
+        return ["chair", "table", "orange", "trees", "flags"]
+    }
+
     function start(){
         setGameStarted(true);
     }
@@ -26,13 +34,22 @@ function WordDisplay(){
         setGameStarted(false);
     }
 
-    function addWord(){
-        setWords(words => [...words,currentWord] );
-        if (words.length == wordCount){
-            // pick new target word
-            // store old array somewhere 
-            // clear array
+    useEffect(() => {
+        if (words.length === wordCount) {
+          // pick new target word
+          const targetWords = getTargetWords();
+          const randomIndex = randomIntFromInterval(0, targetWords.length-1);
+          setTargetWord(targetWords[randomIndex]);
+          // store old array somewhere 
+          // clear array
+          setWords([]);
         }
+      }, [words]);
+    
+
+    function addWord(){
+
+        setWords(oldWords => [...oldWords, currentWord]);
         setCurrentWord("");
 
     }
