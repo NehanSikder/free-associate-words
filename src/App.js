@@ -5,16 +5,16 @@ function App() {
   return (
     <div class="flex flex-col min-h-screen">
       {/* Header */}
-      <header class="bg-blue-500 text-white p-4">
-        <h1 class="text-center">Header</h1>
+      <header class="p-2">
+        <h1 class="text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Free Associate Words</h1>
       </header>
       {/* Main Body */}
-      <div class="flex flex-1">
+      <div class="flex flex-1 bg-slate-200">
         {/* left side bar */}
         <aside class="w-64 p-4">
         </aside>
         {/* Main Content */}
-        <main class="flex-1 bg-white p-4 text-center">
+        <main class="flex-1 p-4 text-center">
           <WordDisplay/>
         </main>
         {/* Right sidebar */}
@@ -24,8 +24,8 @@ function App() {
       </div>
 
       {/* Footer */}
-      <footer class="bg-blue-500 text-white p-4">
-        <h1 class="text-center">Footer</h1>
+      <footer class="p-4">
+        <h1 class="text-center"></h1>
       </footer>
     </div>
   )

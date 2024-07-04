@@ -70,19 +70,21 @@ function WordDisplay(){
             return (
                 <div>
                     {/* Current word */}
-                    <h1>{targetWord}</h1>
+                    <h1 class="text-2xl font-extrabold leading-none tracking-tight py-2">Word: {targetWord}</h1>
                     {/* button for voice mode */}
                     {/* Input field to enter word */}
-                    <input type="text" value={currentWord} onChange={updateCurrentWord} onKeyDown={hitEnterKey}/>
+                    <input type="text" value={currentWord} onChange={updateCurrentWord} onKeyDown={hitEnterKey} placeholder="Enter word" class="text-center shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                     {/* button to enter word */}
-                    <button onClick={addWord}>Enter</button>
+                    <button onClick={addWord} class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Enter</button>
                     {/* List of words display */}
-                    <div>
-                       {words.map(function(word, idx){
-                        return (
-                            <li key={idx}>{word}</li>
-                        )
-                       })}
+                    <div class="p-2">
+                        
+                            {words.map(function(word, idx){
+                            return (
+                                <li key={idx}>{word}</li>
+                            )
+                        })}
+                        
                     </div>
                     
 
