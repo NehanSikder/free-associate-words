@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Card,
     CardContent,
@@ -6,9 +6,6 @@ import {
     CardHeader,
     CardTitle,
   } from "./card"
-import WordInput from "./WordInput";
-  
-
 
 function WordDisplay(){
 
@@ -18,6 +15,17 @@ function WordDisplay(){
     const [wordCount, setWordCount] = useState(5);
     const [targetWord, setTargetWord] = useState("Chair");
 
+    function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    const getTargetWords = () => {
+        // Gets list of target words
+        // TODO implement a backend api call or db call or something else
+        // TODO cache the array somewhere
+        return ["chair", "table", "orange", "trees", "flags"]
+    }
+
     function start(){
         setGameStarted(true);
     }
@@ -26,13 +34,22 @@ function WordDisplay(){
         setGameStarted(false);
     }
 
-    function addWord(){
-        setWords(words => [...words,currentWord] );
-        if (words.length == wordCount){
-            // pick new target word
-            // store old array somewhere 
-            // clear array
+    useEffect(() => {
+        if (words.length === wordCount) {
+          // pick new target word
+          const targetWords = getTargetWords();
+          const randomIndex = randomIntFromInterval(0, targetWords.length-1);
+          setTargetWord(targetWords[randomIndex]);
+          // store old array somewhere 
+          // clear array
+          setWords([]);
         }
+      }, [words]);
+    
+
+    function addWord(){
+
+        setWords(oldWords => [...oldWords, currentWord]);
         setCurrentWord("");
 
     }
@@ -53,19 +70,21 @@ function WordDisplay(){
             return (
                 <div>
                     {/* Current word */}
-                    <h1>{targetWord}</h1>
+                    <h1 class="text-2xl font-extrabold leading-none tracking-tight py-2">Word: {targetWord}</h1>
                     {/* button for voice mode */}
                     {/* Input field to enter word */}
-                    <input type="text" value={currentWord} onChange={updateCurrentWord} onKeyDown={hitEnterKey}/>
+                    <input type="text" value={currentWord} onChange={updateCurrentWord} onKeyDown={hitEnterKey} placeholder="Enter word" class="text-center shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                     {/* button to enter word */}
-                    <button onClick={addWord}>Enter</button>
+                    <button onClick={addWord} class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Enter</button>
                     {/* List of words display */}
-                    <div>
-                       {words.map(function(word, idx){
-                        return (
-                            <li key={idx}>{word}</li>
-                        )
-                       })}
+                    <div class="p-2">
+                        
+                            {words.map(function(word, idx){
+                            return (
+                                <li key={idx}>{word}</li>
+                            )
+                        })}
+                        
                     </div>
                     
 
