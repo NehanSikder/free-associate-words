@@ -4,16 +4,17 @@ import {
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle,
   } from "./card"
 
 function WordDisplay(){
 
+    const wordCount = 5;
     const [gameStarted, setGameStarted] = useState(false); 
     const [words, setWords] = useState([]);
     const [currentWord, setCurrentWord] = useState("");
-    const [wordCount, setWordCount] = useState(5);
-    const [targetWord, setTargetWord] = useState("Chair");
+    const [targetWord, setTargetWord] = useState("");
+    const [displayReport, setDisplayReport] = useState(false)
+    const [sessionWords, setSessionWords] = useState([]);
 
     function randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -28,24 +29,38 @@ function WordDisplay(){
 
     function start(){
         setGameStarted(true);
+        setDisplayReport(false);
+        pickRandomWord(getTargetWords());
     }
     
     function end(){
         setGameStarted(false);
+        setDisplayReport(true);
     }
 
     useEffect(() => {
         if (words.length === wordCount) {
+          // store old array somewhere
+          var updatedValue = {}
+          updatedValue = {
+            "word": targetWord,
+            "words": words
+         }
+          setSessionWords(sessionWords => ([
+            ...sessionWords,
+            updatedValue
+          ]));
           // pick new target word
-          const targetWords = getTargetWords();
-          const randomIndex = randomIntFromInterval(0, targetWords.length-1);
-          setTargetWord(targetWords[randomIndex]);
-          // store old array somewhere 
+          pickRandomWord(words);
           // clear array
           setWords([]);
         }
-      }, [words]);
+      }, [words,pickRandomWord,targetWord,wordCount]);
     
+    function pickRandomWord(wordList){
+        const randomIndex = randomIntFromInterval(0, wordList.length-1);
+        setTargetWord(wordList[randomIndex]);
+    }
 
     function addWord(){
 
@@ -60,7 +75,7 @@ function WordDisplay(){
     }
 
     const hitEnterKey = (e) => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             addWord();
         }
     }
@@ -93,6 +108,54 @@ function WordDisplay(){
         }
         return "";
     }
+
+    function renderReport(){
+        if (displayReport){
+            return (
+                <div>
+                    <div class="border-solid border-2">
+                        {/* Header */}
+                        <h1 class="font-bold text-2xl md:text-2xl lg:text-3xl">Session Report</h1>
+                    </div>
+                    <div class="border-solid border-2">
+                        {/* Summary */}
+                        <h1 class="font-bold text-xl md:text-xl lg:text-2xl">Session Summary</h1>
+                        <div>
+                            <label class="font-bold">Total Time:</label>
+                        </div> 
+                        <div>
+                            <label class="font-bold">Total Words:</label>
+                            {sessionWords.length}
+                        </div>
+                    </div>
+                    <div class="border-solid border-2">
+                        {/* Details */}
+                        <h1 class="font-bold text-xl md:text-xl lg:text-2xl">Session Details</h1>
+                        <div class="flex">
+                            {sessionWords.map(function(obj, keyIndex) {
+                                return (
+                                    <div class="w-fit px-3 space-x-4">
+                                    
+                                        <h1 class="font-bold text-center">{obj["word"]}</h1>
+                                        <ul class="list-disc">
+                                            {obj["words"].map(function(word, idx){
+                                                return (
+                                                            <li key={idx}>{word}</li>
+                                                        )
+                                            })}
+                                        </ul>
+                                        
+                                    
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        return "";
+    }
     
     return (
         <Card>
@@ -114,6 +177,7 @@ function WordDisplay(){
             </CardHeader>
             <CardContent>
                 {renderForm()}
+                {renderReport()}
             </CardContent>
 
         </Card>
