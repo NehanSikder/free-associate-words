@@ -148,7 +148,7 @@ function WordDisplay(){
                     <div class="border-solid border-2">
                         {/* Details */}
                         <h1 class="font-bold text-xl md:text-xl lg:text-2xl">Session Details</h1>
-                        <div class="flex">
+                        <div class="flex max-w-screen-sm max-w-screen-sm max-w-screen-md max-w-screen-lg max-w-screen-xl max-w-screen-2xl overflow-x-auto">
                             {sessionWords.map(function(obj, keyIndex) {
                                 return (
                                     <div class="w-fit px-3 space-x-4">
