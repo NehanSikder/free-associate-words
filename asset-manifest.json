@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/NehanSikder/free-associate-words/static/css/main.9770d004.css",
+    "main.js": "/NehanSikder/free-associate-words/static/js/main.ce26d2e3.js",
+    "index.html": "/NehanSikder/free-associate-words/index.html",
+    "main.9770d004.css.map": "/NehanSikder/free-associate-words/static/css/main.9770d004.css.map",
+    "main.ce26d2e3.js.map": "/NehanSikder/free-associate-words/static/js/main.ce26d2e3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9770d004.css",
+    "static/js/main.ce26d2e3.js"
+  ]
+}
