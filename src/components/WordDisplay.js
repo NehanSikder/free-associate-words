@@ -15,7 +15,7 @@ function WordDisplay(){
     const [wordCount, setWordCount] = useState(5);
     const [targetWord, setTargetWord] = useState("Chair");
     const [displayReport, setDisplayReport] = useState(false)
-    const [sessionWords, setSessionWords] = useState({});
+    const [sessionWords, setSessionWords] = useState([]);
 
     function randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -42,11 +42,14 @@ function WordDisplay(){
         if (words.length === wordCount) {
           // store old array somewhere
           var updatedValue = {}
-          updatedValue[targetWord]=words
-          setSessionWords(sessionWords => ({
+          updatedValue = {
+            "word": targetWord,
+            "words": words
+         }
+          setSessionWords(sessionWords => ([
             ...sessionWords,
-            ...updatedValue
-          }));
+            updatedValue
+          ]));
           // pick new target word
           const targetWords = getTargetWords();
           const randomIndex = randomIntFromInterval(0, targetWords.length-1);
@@ -126,13 +129,13 @@ function WordDisplay(){
                         {/* Details */}
                         <h1 class="font-bold text-xl md:text-xl lg:text-2xl">Session Details</h1>
                         <div class="flex">
-                            {Object.keys(sessionWords).map(function(key, keyIndex) {
+                            {sessionWords.map(function(obj, keyIndex) {
                                 return (
                                     <div class="w-fit px-3 space-x-4">
                                     
-                                        <h1 class="font-bold text-center">{key}</h1>
+                                        <h1 class="font-bold text-center">{obj["word"]}</h1>
                                         <ul class="list-disc">
-                                            {sessionWords[key].map(function(word, idx){
+                                            {obj["words"].map(function(word, idx){
                                                 return (
                                                             <li key={idx}>{word}</li>
                                                         )
