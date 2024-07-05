@@ -6,6 +6,8 @@ import {
     CardHeader,
   } from "./card"
 
+import getTargetWords from "../words"; 
+
 function WordDisplay(){
 
     const wordCount = 5;
@@ -37,14 +39,6 @@ function WordDisplay(){
             </div>
         )
       }
-      
-
-    const getTargetWords = () => {
-        // Gets list of target words
-        // TODO implement a backend api call or db call or something else
-        // TODO cache the array somewhere
-        return ["chair", "table", "orange", "trees", "flags"]
-    }
 
     function start(){
         setSessionWords([]);
