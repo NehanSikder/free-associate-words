@@ -15,10 +15,29 @@ function WordDisplay(){
     const [targetWord, setTargetWord] = useState("");
     const [displayReport, setDisplayReport] = useState(false)
     const [sessionWords, setSessionWords] = useState([]);
+    const [startTime, setStartTime] = useState(new Date());
+    const [endTime, setEndTime] = useState(new Date());
+
 
     function randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+
+    function getTimeBetweenDates(date1, date2) {
+        const diff = Math.abs(date2 - date1); // Difference in milliseconds
+      
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+        return (
+            <div>
+                <label class="font-bold px-1">Total Time:</label>
+                Hour: {hours} Min: {minutes} Sec: {seconds}
+            </div>
+        )
+      }
+      
 
     const getTargetWords = () => {
         // Gets list of target words
@@ -28,12 +47,18 @@ function WordDisplay(){
     }
 
     function start(){
+        setSessionWords([]);
+        setWords([]);
         setGameStarted(true);
         setDisplayReport(false);
         pickRandomWord(getTargetWords());
+        setStartTime(new Date());
     }
     
     function end(){
+        if (gameStarted === true){
+            setEndTime(new Date());
+        }
         setGameStarted(false);
         setDisplayReport(true);
     }
@@ -120,11 +145,9 @@ function WordDisplay(){
                     <div class="border-solid border-2">
                         {/* Summary */}
                         <h1 class="font-bold text-xl md:text-xl lg:text-2xl">Session Summary</h1>
+                            {getTimeBetweenDates(startTime, endTime)}
                         <div>
-                            <label class="font-bold">Total Time:</label>
-                        </div> 
-                        <div>
-                            <label class="font-bold">Total Words:</label>
+                            <label class="font-bold px-1">Total Words:</label>
                             {sessionWords.length}
                         </div>
                     </div>
