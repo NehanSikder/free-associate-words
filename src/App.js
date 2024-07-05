@@ -14,7 +14,7 @@ function App() {
         <aside class="w-64 p-4">
         </aside>
         {/* Main Content */}
-        <main class="flex-1 p-4 text-center">
+        <main class="flex-1 p-4 text-center container mx-auto">
           <WordDisplay/>
         </main>
         {/* Right sidebar */}
