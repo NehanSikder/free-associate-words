@@ -4,16 +4,15 @@ import {
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle,
   } from "./card"
 
 function WordDisplay(){
 
+    const wordCount = 5;
     const [gameStarted, setGameStarted] = useState(false); 
     const [words, setWords] = useState([]);
     const [currentWord, setCurrentWord] = useState("");
-    const [wordCount, setWordCount] = useState(5);
-    const [targetWord, setTargetWord] = useState("Chair");
+    const [targetWord, setTargetWord] = useState("");
     const [displayReport, setDisplayReport] = useState(false)
     const [sessionWords, setSessionWords] = useState([]);
 
@@ -31,6 +30,7 @@ function WordDisplay(){
     function start(){
         setGameStarted(true);
         setDisplayReport(false);
+        pickRandomWord(getTargetWords());
     }
     
     function end(){
@@ -51,14 +51,16 @@ function WordDisplay(){
             updatedValue
           ]));
           // pick new target word
-          const targetWords = getTargetWords();
-          const randomIndex = randomIntFromInterval(0, targetWords.length-1);
-          setTargetWord(targetWords[randomIndex]);
+          pickRandomWord(words);
           // clear array
           setWords([]);
         }
-      }, [words]);
+      }, [words,pickRandomWord,targetWord,wordCount]);
     
+    function pickRandomWord(wordList){
+        const randomIndex = randomIntFromInterval(0, wordList.length-1);
+        setTargetWord(wordList[randomIndex]);
+    }
 
     function addWord(){
 
@@ -73,7 +75,7 @@ function WordDisplay(){
     }
 
     const hitEnterKey = (e) => {
-        if (e.key == 'Enter'){
+        if (e.key === 'Enter'){
             addWord();
         }
     }
@@ -123,6 +125,7 @@ function WordDisplay(){
                         </div> 
                         <div>
                             <label class="font-bold">Total Words:</label>
+                            {sessionWords.length}
                         </div>
                     </div>
                     <div class="border-solid border-2">
